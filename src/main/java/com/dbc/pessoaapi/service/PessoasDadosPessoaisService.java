@@ -50,10 +50,10 @@ public class PessoasDadosPessoaisService {
         DadosPessoaisDTO dadosPessoaisNovoDTO = objectMapper.convertValue(pessoaDadosPessoaisDTO, DadosPessoaisDTO.class);
         PessoaCreateDTO pessoaCreateDTO = objectMapper.convertValue(pessoaDadosPessoaisDTO, PessoaCreateDTO.class);
 
-        pessoaService.update(pessoaCreateDTO);
+        pessoaService.update(pessoaDadosPessoaisDTO.getCPF(),pessoaCreateDTO);
         dadosPessoaisService.update(dadosPessoaisNovoDTO);
         PessoaDadosPessoaisEntity pessoaEntity = objectMapper.convertValue(pessoaDadosPessoaisDTO, PessoaDadosPessoaisEntity.class);
-        pessoaDadosPessoaisRepository.update(pessoaDadosPessoaisDTO);
+        pessoaDadosPessoaisRepository.update(pessoaDadosPessoaisDTO.getCPF(), pessoaDadosPessoaisDTO);
         PessoaDadosPessoaisDTO pessoaDadosDTO = objectMapper.convertValue(pessoaEntity, PessoaDadosPessoaisDTO.class);
         return pessoaDadosDTO;
     }

@@ -33,9 +33,9 @@ public class PessoaDadosPessoaisRepository {
 
     }
 
-    public PessoaDadosPessoaisEntity update(PessoaDadosPessoaisDTO pessoaDadosPessoaisDTO) throws RegraDeNegocioException {
+    public PessoaDadosPessoaisEntity update(String cpf, PessoaDadosPessoaisDTO pessoaDadosPessoaisDTO) throws RegraDeNegocioException {
         PessoaDadosPessoaisEntity pessoaRecuperada = listaPessoaDados.stream()
-                .filter(pessoa -> pessoa.getCPF().equals(pessoaDadosPessoaisDTO.getCPF()))
+                .filter(pessoa -> pessoa.getCPF().equals(cpf))
                 .findFirst()
                 .orElseThrow(() -> new RegraDeNegocioException("Pessoa não econtrada"));
         pessoaRecuperada.setNome(pessoaRecuperada.getNome());

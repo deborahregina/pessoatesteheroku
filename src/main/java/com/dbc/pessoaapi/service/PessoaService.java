@@ -67,13 +67,6 @@ public class PessoaService {
         return pessoaDTO;
     }
 
-    public PessoaDTO update(PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException, MessagingException, TemplateException, IOException {
-
-        PessoaEntity pessoaEntity = objectMapper.convertValue(pessoaCreateDTO, PessoaEntity.class);
-        PessoaEntity pessoaAtualizada = pessoaRepository.update(pessoaEntity);
-        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaAtualizada, PessoaDTO.class);
-        return pessoaDTO;
-    }
 
     public PessoaDTO update(String cpf, PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException, MessagingException, TemplateException, IOException {
 
