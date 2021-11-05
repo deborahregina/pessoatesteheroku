@@ -67,10 +67,33 @@ public class PessoaService {
         return pessoaDTO;
     }
 
+    public PessoaDTO update(PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException, MessagingException, TemplateException, IOException {
+
+        PessoaEntity pessoaEntity = objectMapper.convertValue(pessoaCreateDTO, PessoaEntity.class);
+        PessoaEntity pessoaAtualizada = pessoaRepository.update(pessoaEntity);
+        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaAtualizada, PessoaDTO.class);
+        return pessoaDTO;
+    }
+
+    public PessoaDTO update(String cpf, PessoaCreateDTO pessoaCreateDTO) throws RegraDeNegocioException, MessagingException, TemplateException, IOException {
+
+        PessoaEntity pessoaEntity = objectMapper.convertValue(pessoaCreateDTO, PessoaEntity.class);
+        PessoaEntity pessoaAtualizada = pessoaRepository.update(cpf,pessoaEntity);
+        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaAtualizada, PessoaDTO.class);
+        return pessoaDTO;
+    }
+
     public void delete(Integer id) throws Exception {
-        PessoaEntity pessoaEntity = pessoaRepository.getById(id);
-        PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaEntity, PessoaDTO.class);
+        PessoaEntity entity = pessoaRepository.getById(id);
+        DadosPessoaisDTO dadosPessoaisDTO = dadosPessoaisClient.getPorCpf(entity.getCpf());
+        PessoaDTO dto = objectMapper.convertValue(entity, PessoaDTO.class);
+        dadosPessoaisClient.delete(dadosPessoaisDTO.getCpf());
         pessoaRepository.delete(id);
+        //emailService.enviarEmailComTemplateDelete(pessoaDTO);
+    }
+
+    public void delete(String cpf) throws Exception {
+        pessoaRepository.delete(cpf);
         //emailService.enviarEmailComTemplateDelete(pessoaDTO);
     }
 
@@ -91,6 +114,12 @@ public class PessoaService {
         DadosPessoaisDTO dadosPessoaisDTO = dadosPessoaisClient.getPorCpf(entity.getCpf());
         PessoaDTO dto = objectMapper.convertValue(entity, PessoaDTO.class);
         dto.setDadosPessoaisDTO(dadosPessoaisDTO);
+        return dto;
+    }
+
+    public PessoaDTO getByCPF(String cpf) throws Exception {
+        PessoaEntity pessoaEntity = pessoaRepository.getByCPF(cpf);
+        PessoaDTO dto = objectMapper.convertValue(pessoaEntity,PessoaDTO.class);
         return dto;
     }
 

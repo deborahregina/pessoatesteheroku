@@ -4,7 +4,9 @@ import com.dbc.pessoaapi.client.DadosPessoaisClient;
 import com.dbc.pessoaapi.dto.DadosPessoaisDTO;
 import com.dbc.pessoaapi.dto.PessoaCreateDTO;
 import com.dbc.pessoaapi.dto.PessoaDTO;
+import com.dbc.pessoaapi.entity.PessoaDadosPessoaisEntity;
 import com.dbc.pessoaapi.entity.PessoaEntity;
+import com.dbc.pessoaapi.exceptions.RegraDeNegocioException;
 import com.dbc.pessoaapi.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DadosPessoaisService {
 
-    private final PessoaRepository pessoaRepository;
+    private final PessoaService pessoaService;
     private final ObjectMapper objectMapper;
     private final DadosPessoaisClient dadosPessoaisClient;
 
@@ -34,5 +36,14 @@ public class DadosPessoaisService {
     public DadosPessoaisDTO getPorCpf(String cpf) {
         return dadosPessoaisClient.getPorCpf(cpf);
     }
+
+    public DadosPessoaisDTO delete(String cpf) throws Exception {
+        return dadosPessoaisClient.delete(cpf);
+    }
+
+    public DadosPessoaisDTO update(DadosPessoaisDTO dadosPessoaisDTO) {
+        return dadosPessoaisClient.update(dadosPessoaisDTO.getCpf());
+    }
+
 
 }

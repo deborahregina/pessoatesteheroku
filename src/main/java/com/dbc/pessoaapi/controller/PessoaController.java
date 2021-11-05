@@ -1,9 +1,11 @@
 package com.dbc.pessoaapi.controller;
 
+import com.dbc.pessoaapi.dto.DadosPessoaisDTO;
 import com.dbc.pessoaapi.dto.PessoaCreateDTO;
 import com.dbc.pessoaapi.dto.PessoaDTO;
 import com.dbc.pessoaapi.entity.PessoaEntity;
 import com.dbc.pessoaapi.exceptions.RegraDeNegocioException;
+import com.dbc.pessoaapi.service.DadosPessoaisService;
 import com.dbc.pessoaapi.service.PessoaService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,6 +26,7 @@ import java.util.List;
 public class PessoaController {
 
     private final PessoaService pessoaService;
+    private final DadosPessoaisService dadosPessoaisService;
 
     @ApiOperation(value = "Cria uma nova pessoa")
     @ApiResponses(value = {
@@ -33,18 +36,17 @@ public class PessoaController {
     })
     @PostMapping
     public PessoaDTO create(@RequestBody @Valid PessoaCreateDTO pessoaCreateDTO) throws Exception {
-        log.info("iniciando criação da pessoa");
         PessoaDTO pessoaEntityCriado = pessoaService.create(pessoaCreateDTO);
-        log.info("Pessoa criada com sucesso!");
         return pessoaEntityCriado;
     }
-    @ApiOperation(value = "Lista pessoa por ID")
+
+    @ApiOperation(value = "Lista pessoa e dados pessoais por ID")
     @GetMapping("/{idPessoa}")
     public PessoaDTO getById(@RequestParam("idPessoa") Integer idPessoa) throws Exception {
         return pessoaService.getById(idPessoa);
     }
 
-    @ApiOperation(value = "Lista todos os registros de pessoa")
+    @ApiOperation(value = "Lista todos os registros de pessoa e seus dados pessoais")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma lista de pessoas"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção")
@@ -54,7 +56,7 @@ public class PessoaController {
         return pessoaService.list();
     }
 
-    @ApiOperation(value = "Lista informações da pessoa, passando o nome dela")
+    @ApiOperation(value = "Lista informações e dados pessoais da pessoa, passando o nome dela")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna informações da pessoa"),
             @ApiResponse(code = 400, message = "Pessoa não encontrada"),
@@ -88,8 +90,6 @@ public class PessoaController {
     })
     @DeleteMapping("/{idPessoa}")
     public void delete(@PathVariable("idPessoa") Integer id) throws Exception {
-        log.info("Deletando pessoa..");
         pessoaService.delete(id);
-        log.info("Pessoa deletada com sucesso!");
     }
 }
