@@ -51,6 +51,12 @@ public class PessoaDadosPessoaisController {
         return pessoasDadosPessoaisService.list();
     }
 
+    @ApiOperation(value = "Altera pessoa e dados da pessoa por cpf")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Pessoa e dados deletados com sucesso"),
+            @ApiResponse(code = 400, message = "Pessoa não encontrada"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção")
+    })
     @PutMapping("/{cpf}")
     public PessoaDadosPessoaisDTO update(@PathVariable("cpf") String cpf,
                             @RequestBody @Valid PessoaDadosPessoaisDTO pessoaDadosPessoaisDTO) throws Exception {
@@ -59,6 +65,12 @@ public class PessoaDadosPessoaisController {
         return pessoaDadosPessoaisDTOCriado;
     }
 
+    @ApiOperation(value = "Deleta pessoa e dados da pessoa por cpf")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Pessoa e dados deletados com sucesso"),
+            @ApiResponse(code = 400, message = "Pessoa não encontrada"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção")
+    })
     @DeleteMapping("/{cpf}")
     public void delete(@PathVariable("cpf") String cpf) throws Exception {
         pessoasDadosPessoaisService.delete(cpf);
